@@ -1,34 +1,12 @@
 <template>
   <div class="vue3-autocomplete-container">
-    <input
-        ref="autocompleteRef"
-        type="text"
-        @input="handleInput"
-        v-bind="$attrs"
-        v-model="searchText"
-        :placeholder="placeholder"
-        :class="getInputClass"
-        @focus="displayResults"
-        @blur="hideResults"
-    />
+    <input ref="autocompleteRef" type="text" @input="handleInput" v-bind="$attrs" v-model="searchText"
+      :placeholder="placeholder" :class="getInputClass" @focus="displayResults" @blur="hideResults" />
     <div :style="{ width: inputWidth + 'px' }" :class="getResultsContainerClass" v-if="shouldShowResults">
-      <div
-          v-if="useHtmlForResults"
-          v-for="item in filteredResults"
-          :key="item"
-          :class="getResultsItemClass"
-          @click="clickItem(item)"
-          @mousedown.prevent
-          v-html="displayItem(item)"
-      ></div>
-      <div
-          v-if="!useHtmlForResults"
-          v-for="item in filteredResults"
-          :key="item"
-          :class="getResultsItemClass"
-          @click="clickItem(item)"
-          @mousedown.prevent
-      >{{ displayItem(item) }}</div>
+      <div v-if="useHtmlForResults" v-for="item in filteredResults" :key="item" :class="getResultsItemClass"
+        @click="clickItem(item)" @mousedown.prevent v-html="displayItem(item)"></div>
+      <div v-if="!useHtmlForResults" v-for="item in filteredResults" :key="item" :class="getResultsItemClass"
+        @click="clickItem(item)" @mousedown.prevent>{{ displayItem(item) }}</div>
     </div>
   </div>
 </template>
@@ -75,7 +53,7 @@ export default {
     },
     displayItem: {
       type: Function,
-      default: (item: Object|String) => {
+      default: (item: Object | string) => {
         // @ts-ignore
         return typeof item === 'string' ? item : item.name
       }
@@ -89,9 +67,9 @@ export default {
     const autocompleteRef = ref()
 
     let inputWidth = ref(0),
-        searchText = ref(''),
-        timeout: NodeJS.Timeout,
-        showResults = ref(true)
+      searchText = ref(''),
+      timeout: NodeJS.Timeout,
+      showResults = ref(true)
 
     /**
      * Same as Vue2 'mounted' function, used to get refs correctly
@@ -117,6 +95,7 @@ export default {
     function clickItem(data: Object) {
       context.emit('onSelect', data)
       showResults.value = false
+      searchText.value = props.displayItem(data)
     }
 
     /**
@@ -153,8 +132,8 @@ export default {
      */
     const getResultsContainerClass = computed(() => {
       return props.resultsContainerClass.length > 0 ?
-          props.resultsContainerClass :
-          ['vue3-results-container']
+        props.resultsContainerClass :
+        ['vue3-results-container']
     })
 
     /**
@@ -162,8 +141,8 @@ export default {
      */
     const getResultsItemClass = computed(() => {
       return props.resultsItemClass.length > 0 ?
-          props.resultsItemClass :
-          ['vue3-results-item']
+        props.resultsItemClass :
+        ['vue3-results-item']
     })
 
     /**

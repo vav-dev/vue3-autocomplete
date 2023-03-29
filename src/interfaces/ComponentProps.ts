@@ -9,6 +9,6 @@ export default interface ComponentProps {
     placeholder: String,
     useHtmlForResults: Boolean
 
-    displayItem(item: Object|String): String
+    displayItem(item: Object | String): string
 
 }
